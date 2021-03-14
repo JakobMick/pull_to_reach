@@ -85,7 +85,8 @@ class PullToReachContext extends InheritedWidget {
         super(key: key, child: child);
 
   static PullToReachContext of(BuildContext context) =>
-      context.inheritFromWidgetOfExactType(PullToReachContext)
+      //context.inheritFromWidgetOfExactType(PullToReachContext)
+      context.dependOnInheritedWidgetOfExactType<PullToReachContext>()
           as PullToReachContext;
 
   void setFocusIndex(int index) {
