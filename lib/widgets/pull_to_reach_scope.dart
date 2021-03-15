@@ -10,12 +10,12 @@ class PullToReachScope extends StatelessWidget {
   final Widget child;
 
   final List<WeightedIndex> indices;
-  final ReachableFeedback feedback;
+  final ReachableFeedback? feedback;
   final double dragExtentPercentage;
 
   PullToReachScope({
-    @required this.child,
-    @required this.indices,
+    required this.child,
+    required this.indices,
     this.feedback,
     this.dragExtentPercentage = 0.5,
   });
@@ -46,17 +46,17 @@ class PullToReachContext extends InheritedWidget {
   Stream<double> get dragPercent => _dragPercent.stream;
 
   List<WeightedIndex> get indices {
-    if (_indices != null) return List.from(_indices);
+    if (_indices != null) return List.from(_indices!);
 
     return mapIndex(
-      end: _indexCount,
+      end: _indexCount!,
       mapper: (index) => WeightedIndex(index: index),
     );
   }
 
-  final ValueChanged<int> onFocusChanged;
+  final ValueChanged<int>? onFocusChanged;
 
-  final ValueChanged<int> onSelectChanged;
+  final ValueChanged<int>? onSelectChanged;
 
   // -----
   // Private
@@ -68,14 +68,14 @@ class PullToReachContext extends InheritedWidget {
 
   final StreamController<double> _dragPercent = StreamController.broadcast();
 
-  final List<WeightedIndex> _indices;
-  final int _indexCount;
+  final List<WeightedIndex>? _indices;
+  final int? _indexCount;
 
   PullToReachContext({
-    Key key,
-    @required Widget child,
-    List<WeightedIndex> indices,
-    int indexCount,
+    Key? key,
+    required Widget child,
+    List<WeightedIndex>? indices,
+    int? indexCount,
     this.onFocusChanged,
     this.onSelectChanged,
   })  : _indices = indices,
@@ -84,18 +84,18 @@ class PullToReachContext extends InheritedWidget {
             "Either specify the amount of indeces with count or indices!"),
         super(key: key, child: child);
 
-  static PullToReachContext of(BuildContext context) =>
+  static PullToReachContext? of(BuildContext context) =>
       //context.inheritFromWidgetOfExactType(PullToReachContext)
       context.dependOnInheritedWidgetOfExactType<PullToReachContext>()
-          as PullToReachContext;
+          as PullToReachContext?;
 
   void setFocusIndex(int index) {
-    if (onFocusChanged != null) onFocusChanged(index);
+    if (onFocusChanged != null) onFocusChanged!(index);
     _focusIndex.add(index);
   }
 
   void setSelectIndex(int index) {
-    if (onSelectChanged != null) onSelectChanged(index);
+    if (onSelectChanged != null) onSelectChanged!(index);
     _selectIndex.add(index);
   }
 

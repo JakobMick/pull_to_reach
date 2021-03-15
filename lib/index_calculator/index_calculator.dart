@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:meta/meta.dart';
 import 'package:pull_to_reach/index_calculator/range.dart';
 import 'package:pull_to_reach/index_calculator/weighted_index.dart';
@@ -35,7 +36,7 @@ abstract class IndexCalculator {
   factory IndexCalculator({
     double minScrollPosition = 0,
     double maxScrollPosition = 1,
-    @required List<WeightedIndex> indices,
+    required List<WeightedIndex> indices,
   }) =>
       _IndexCalculatorImpl(
         minScrollPosition,
@@ -49,7 +50,7 @@ class _IndexCalculatorImpl implements IndexCalculator {
   final double maxScrollPosition;
 
   final List<WeightedIndex> indices;
-  List<Range> _ranges;
+  late List<Range> _ranges;
 
   _IndexCalculatorImpl(
       this.minScrollPosition, this.maxScrollPosition, this.indices) {
@@ -58,9 +59,8 @@ class _IndexCalculatorImpl implements IndexCalculator {
 
   @override
   IndexCalculation getIndexForScrollPercent(double scrollPercent) {
-    var range = _ranges.firstWhere(
+    var range = _ranges.firstWhereOrNull(
       (range) => range.isInRange(scrollPercent),
-      orElse: () => null,
     );
 
     var index = range?.index ?? -1;
@@ -71,7 +71,7 @@ class _IndexCalculatorImpl implements IndexCalculator {
       List<WeightedIndex> indices, double min, double max) {
     var count = indices.length;
 
-    var ranges = List<Range>();
+    List<Range> ranges = [];
 
     double previousEnd = 0;
     for (int i = 0; i < count; i++) {
@@ -111,7 +111,9 @@ class _IndexCalculatorImpl implements IndexCalculator {
   }
 
   double _rangeSizeForIndex(
-      {WeightedIndex index, List<WeightedIndex> other, double maxValue}) {
+      {required WeightedIndex index,
+      required List<WeightedIndex> other,
+      required double maxValue}) {
     var weightSum = sum<WeightedIndex>(
       items: other,
       mapper: (index) => index.weight,

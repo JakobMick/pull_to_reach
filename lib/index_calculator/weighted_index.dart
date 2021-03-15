@@ -6,7 +6,7 @@ class WeightedIndex {
   final double weight;
 
   WeightedIndex({
-    @required this.index,
+    required this.index,
     this.weight = 1,
   });
 }

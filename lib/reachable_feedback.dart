@@ -7,8 +7,8 @@ abstract class ReachableFeedback {
 }
 
 class HapticReachableFeedback implements ReachableFeedback {
-  final bool Function(int index) shouldVibrateOnFocus;
-  final bool Function(int index) shouldVibrateOnSelect;
+  final bool Function(int index)? shouldVibrateOnFocus;
+  final bool Function(int index)? shouldVibrateOnSelect;
 
   HapticReachableFeedback({
     this.shouldVibrateOnFocus,
@@ -17,7 +17,7 @@ class HapticReachableFeedback implements ReachableFeedback {
 
   @override
   void onFocus(int index) async {
-    if (shouldVibrateOnFocus == null || shouldVibrateOnFocus(index)) {
+    if (shouldVibrateOnFocus == null || shouldVibrateOnFocus!(index)) {
       await SystemChannels.platform.invokeMethod(
         'HapticFeedback.vibrate',
         'HapticFeedbackType.lightImpact',
@@ -27,7 +27,7 @@ class HapticReachableFeedback implements ReachableFeedback {
 
   @override
   void onSelect(int index) async {
-    if (shouldVibrateOnSelect == null || shouldVibrateOnSelect(index)) {
+    if (shouldVibrateOnSelect == null || shouldVibrateOnSelect!(index)) {
       await SystemChannels.platform.invokeMethod(
         'HapticFeedback.vibrate',
         'HapticFeedbackType.heavyImpact',

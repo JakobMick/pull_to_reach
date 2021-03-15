@@ -8,7 +8,7 @@ class ScrollToIndexConverter extends StatefulWidget {
   final double dragExtentPercentage;
 
   ScrollToIndexConverter({
-    @required this.child,
+    required this.child,
     this.dragExtentPercentage = 0.2,
   });
 
@@ -23,12 +23,12 @@ class _ScrollToIndexConverterState extends State<ScrollToIndexConverter>
 
   bool _pullToReachStarted = false;
   bool _shouldNotifyOnDragEnd = false;
-  IndexCalculator _indexCalculator;
+  late IndexCalculator _indexCalculator;
 
   @override
   void didChangeDependencies() {
     _indexCalculator = IndexCalculator(
-      indices: PullToReachContext.of(context).indices,
+      indices: PullToReachContext.of(context)!.indices,
     );
 
     super.didChangeDependencies();
@@ -113,7 +113,7 @@ class _ScrollToIndexConverterState extends State<ScrollToIndexConverter>
     var containerExtent = notification.metrics.viewportDimension;
 
     if (notification is ScrollUpdateNotification) {
-      _dragOffset -= notification.scrollDelta;
+      _dragOffset -= notification.scrollDelta!;
     }
 
     if (notification is OverscrollNotification) {
@@ -139,19 +139,19 @@ class _ScrollToIndexConverterState extends State<ScrollToIndexConverter>
 
   void _notifySelectIfNeeded() {
     if (_shouldNotifyOnDragEnd) {
-      PullToReachContext.of(context).setSelectIndex(_currentIndex);
-      PullToReachContext.of(context).setDragPercent(0);
-      PullToReachContext.of(context).setFocusIndex(-1);
+      PullToReachContext.of(context)!.setSelectIndex(_currentIndex);
+      PullToReachContext.of(context)!.setDragPercent(0);
+      PullToReachContext.of(context)!.setFocusIndex(-1);
 
       _shouldNotifyOnDragEnd = false;
     }
   }
 
   void _updateFocusIndex() {
-    PullToReachContext.of(context).setFocusIndex(_currentIndex);
+    PullToReachContext.of(context)!.setFocusIndex(_currentIndex);
   }
 
   void _updateScrollPercent(double percent) {
-    PullToReachContext.of(context).setDragPercent(percent);
+    PullToReachContext.of(context)!.setDragPercent(percent);
   }
 }

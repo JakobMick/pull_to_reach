@@ -9,13 +9,13 @@ class Reachable extends StatefulWidget {
   final Widget child;
   final int index;
 
-  final ValueChanged<bool> onFocusChanged;
-  final VoidCallback onSelect;
-  final ValueChanged<double> onOverallPercentChanged;
+  final ValueChanged<bool>? onFocusChanged;
+  final VoidCallback? onSelect;
+  final ValueChanged<double>? onOverallPercentChanged;
 
   Reachable({
-    @required this.child,
-    @required this.index,
+    required this.child,
+    required this.index,
     this.onFocusChanged,
     this.onSelect,
     this.onOverallPercentChanged,
@@ -26,9 +26,9 @@ class Reachable extends StatefulWidget {
 }
 
 class ReachableState extends State<Reachable> {
-  StreamSubscription<int> _focusSubscription;
-  StreamSubscription<int> _selectionSubscription;
-  StreamSubscription<double> _dragPercentSubscription;
+  StreamSubscription<int>? _focusSubscription;
+  StreamSubscription<int>? _selectionSubscription;
+  StreamSubscription<double>? _dragPercentSubscription;
 
   @override
   Widget build(BuildContext context) => widget.child;
@@ -39,7 +39,7 @@ class ReachableState extends State<Reachable> {
     _selectionSubscription?.cancel();
     _dragPercentSubscription?.cancel();
 
-    var pullToReachContext = PullToReachContext.of(context);
+    var pullToReachContext = PullToReachContext.of(context)!;
 
     _focusSubscription = pullToReachContext.focusIndex.listen(_onFocusChanged);
 
@@ -67,16 +67,16 @@ class ReachableState extends State<Reachable> {
 
   void _onFocusChanged(int newIndex) {
     if (widget.onFocusChanged == null) return;
-    widget.onFocusChanged(widget.index == newIndex);
+    widget.onFocusChanged!(widget.index == newIndex);
   }
 
   void _onSelectionChanged(int newIndex) {
     if (widget.onSelect == null) return;
-    if (widget.index == newIndex) widget.onSelect();
+    if (widget.index == newIndex) widget.onSelect!();
   }
 
   void _updateDragPercent(double percent) {
     if (widget.onOverallPercentChanged == null) return;
-    widget.onOverallPercentChanged(percent);
+    widget.onOverallPercentChanged!(percent);
   }
 }

@@ -11,9 +11,9 @@ class ReachableIcon extends StatefulWidget {
   final double scaleFactor;
 
   ReachableIcon({
-    @required this.icon,
-    @required this.index,
-    @required this.onSelect,
+    required this.icon,
+    required this.index,
+    required this.onSelect,
     this.padding = const EdgeInsets.all(8),
     this.duration = const Duration(milliseconds: 100),
     this.scaleFactor = 1.25,
@@ -25,8 +25,8 @@ class ReachableIcon extends StatefulWidget {
 
 class _ReachableIconState extends State<ReachableIcon>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<double> _iconScaleAnimation;
+  late AnimationController _animationController;
+  late Animation<double> _iconScaleAnimation;
 
   @override
   void initState() {
